@@ -1,0 +1,2267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Sweet Fairy Tale 💕🍫</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;600;700&family=Lora:ital,wght@0,400;1,400&family=Indie+Flower&family=Patrick+Hand&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <style>
+        /* ========== BASE RESET & SETUP ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #1a0e08;
+            font-family: 'Lora', serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated vintage background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(139, 69, 19, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(210, 140, 60, 0.15) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 80%, rgba(100, 50, 20, 0.3) 0%, transparent 50%),
+                url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+            background-color: #1a0e08;
+            z-index: 0;
+        }
+
+        /* ========== FLOATING PARTICLES (Hearts, Stars, Chocolates) ========== */
+        .particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            animation: floatUp linear infinite;
+            opacity: 0;
+            font-size: 16px;
+        }
+
+        .particle.glow {
+            background: radial-gradient(circle, rgba(255, 200, 100, 0.9), transparent);
+            border-radius: 50%;
+            font-size: 0;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0; }
+            10% { opacity: 0.8; }
+            50% { opacity: 1; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-10vh) rotate(720deg) scale(1); opacity: 0; }
+        }
+
+        @keyframes floatUpWiggle {
+            0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            25% { transform: translateY(75vh) translateX(20px) rotate(180deg); }
+            50% { transform: translateY(50vh) translateX(-20px) rotate(360deg); opacity: 1; }
+            75% { transform: translateY(25vh) translateX(15px) rotate(540deg); }
+            100% { transform: translateY(-10vh) translateX(0) rotate(720deg); opacity: 0; }
+        }
+
+        /* ========== SPARKLE CURSOR TRAIL ========== */
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 12px;
+            animation: sparkleAnim 0.8s ease-out forwards;
+        }
+
+        @keyframes sparkleAnim {
+            0% { transform: scale(1) rotate(0deg); opacity: 1; }
+            100% { transform: scale(0) rotate(180deg) translateY(-30px); opacity: 0; }
+        }
+
+        /* ========== PAGE COUNTER ========== */
+        .page-counter {
+            position: fixed;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #d4a574;
+            font-family: 'Caveat', cursive;
+            font-size: 18px;
+            letter-spacing: 2px;
+            z-index: 100;
+            background: rgba(30, 15, 5, 0.85);
+            padding: 8px 28px;
+            border-radius: 25px;
+            border: 1px solid rgba(212, 165, 116, 0.4);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .page-counter::before {
+            content: '🍫 ';
+        }
+        .page-counter::after {
+            content: ' ✨';
+        }
+
+        /* ========== BOOK WRAPPER ========== */
+        .book-wrapper {
+            perspective: 2000px;
+            z-index: 10;
+            margin: 25px 0;
+        }
+
+        .book {
+            width: 520px;
+            height: 700px;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        /* ========== BOOK SPINE SHADOW ========== */
+        .book::before {
+            content: '';
+            position: absolute;
+            left: -5px;
+            top: 10px;
+            bottom: 10px;
+            width: 20px;
+            background: linear-gradient(to right, 
+                rgba(0,0,0,0.4), 
+                rgba(0,0,0,0.1),
+                transparent
+            );
+            z-index: 50;
+            border-radius: 3px 0 0 3px;
+        }
+
+        /* ========== PAGE BASE ========== */
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-origin: left center;
+            transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+            transform-style: preserve-3d;
+            cursor: pointer;
+            filter: drop-shadow(3px 0 5px rgba(0,0,0,0.15));
+        }
+
+        .page.flipped {
+            transform: rotateY(-180deg);
+            filter: drop-shadow(-3px 0 5px rgba(0,0,0,0.15));
+        }
+
+        .page-inner {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            border-radius: 3px 12px 12px 3px;
+            overflow: hidden;
+        }
+
+        /* ========== COVER - FRONT (Chocolate Box Style) ========== */
+        .cover-front {
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 35px,
+                    rgba(160, 100, 40, 0.08) 35px,
+                    rgba(160, 100, 40, 0.08) 70px
+                ),
+                linear-gradient(160deg, #5C2E0E 0%, #7B3F1B 20%, #8B4513 40%, #6B3410 60%, #4A2508 80%, #3D1F06 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid #a0764a;
+            box-shadow: 
+                inset 0 0 80px rgba(0,0,0,0.6),
+                inset 0 2px 0 rgba(255,200,100,0.1),
+                inset 0 -2px 0 rgba(0,0,0,0.3),
+                8px 8px 25px rgba(0,0,0,0.6);
+            position: relative;
+        }
+
+        /* Leather texture overlay */
+        .cover-front::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.12'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        /* Gold embossed border */
+        .cover-front::after {
+            content: '';
+            position: absolute;
+            top: 12px; left: 12px; right: 12px; bottom: 12px;
+            border: 2px solid rgba(212, 165, 116, 0.4);
+            border-radius: 5px;
+            pointer-events: none;
+        }
+
+        .cover-chocolate-top {
+            display: flex;
+            gap: 15px;
+            font-size: 24px;
+            margin-bottom: 10px;
+            animation: chocolateBounce 3s ease-in-out infinite;
+        }
+
+        @keyframes chocolateBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .cover-disney-sparkle {
+            position: absolute;
+            top: 25px;
+            right: 30px;
+            font-size: 28px;
+            animation: disneySparkle 2s ease-in-out infinite;
+        }
+
+        .cover-disney-left {
+            position: absolute;
+            top: 25px;
+            left: 30px;
+            font-size: 26px;
+            animation: disneySparkle 2s ease-in-out infinite 0.5s;
+        }
+
+        @keyframes disneySparkle {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.7; }
+            50% { transform: scale(1.2) rotate(10deg); opacity: 1; }
+        }
+
+        .cover-frame {
+            border: 2px solid rgba(212, 165, 116, 0.6);
+            padding: 35px 45px;
+            margin: 15px 30px;
+            text-align: center;
+            position: relative;
+            background: rgba(0,0,0,0.25);
+            backdrop-filter: blur(2px);
+            z-index: 2;
+        }
+
+        .cover-frame::before,
+        .cover-frame::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            border: 2px solid #d4a574;
+        }
+
+        .cover-frame::before {
+            top: -6px; left: -6px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .cover-frame::after {
+            bottom: -6px; right: -6px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .cover-castle {
+            font-size: 48px;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+        }
+
+        .cover-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 48px;
+            color: #f0d5a8;
+            text-shadow: 
+                2px 2px 4px rgba(0,0,0,0.6),
+                0 0 20px rgba(212, 165, 116, 0.3);
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+
+        .cover-title-sub {
+            font-family: 'Caveat', cursive;
+            font-size: 26px;
+            color: #e8c090;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+
+        .cover-divider {
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .cover-divider span {
+            color: #d4a574;
+            font-size: 22px;
+        }
+
+        .cover-divider::before,
+        .cover-divider::after {
+            content: '';
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #d4a574, transparent);
+        }
+
+        .cover-subtitle {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            color: #c9a87c;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .cover-chocolate-row {
+            display: flex;
+            gap: 12px;
+            font-size: 20px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+
+        .cover-date {
+            font-family: 'Patrick Hand', cursive;
+            color: #b8956a;
+            font-size: 15px;
+            margin-top: 15px;
+            letter-spacing: 1px;
+        }
+
+        .open-instruction {
+            position: absolute;
+            bottom: 28px;
+            color: #b8956a;
+            font-family: 'Caveat', cursive;
+            font-style: italic;
+            font-size: 16px;
+            animation: pulseGlow 2.5s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.5; text-shadow: none; }
+            50% { opacity: 1; text-shadow: 0 0 10px rgba(212, 165, 116, 0.5); }
+        }
+
+        .cover-bottom-choco {
+            display: flex;
+            gap: 15px;
+            font-size: 22px;
+            margin-top: 10px;
+            z-index: 2;
+        }
+
+        /* ========== INNER PAGES - VINTAGE JOURNAL ========== */
+        .page-content {
+            background: #f5edd6;
+            position: relative;
+        }
+
+        /* Aged paper texture */
+        .page-content::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(ellipse at 0% 0%, rgba(180, 140, 80, 0.15) 0%, transparent 40%),
+                radial-gradient(ellipse at 100% 100%, rgba(160, 120, 60, 0.15) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 50%, rgba(200, 170, 100, 0.05) 0%, transparent 60%),
+                url("data:image/svg+xml,%3Csvg width='300' height='300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23paper)' opacity='0.06'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Spine shadow */
+        .page-content::after {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 30px;
+            background: linear-gradient(to right, 
+                rgba(0,0,0,0.12) 0%, 
+                rgba(0,0,0,0.04) 40%, 
+                transparent 100%
+            );
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Coffee stain effect on some pages */
+        .page:nth-child(4) .page-content .page-journal::after,
+        .page:nth-child(8) .page-content .page-journal::after,
+        .page:nth-child(12) .page-content .page-journal::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: radial-gradient(ellipse, 
+                rgba(139, 90, 40, 0.06) 0%, 
+                rgba(139, 90, 40, 0.03) 50%,
+                transparent 70%
+            );
+            bottom: 30px;
+            right: 25px;
+            z-index: 0;
+        }
+
+        .page-journal {
+            height: 100%;
+            margin: 15px;
+            padding: 18px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 3;
+        }
+
+        /* Ruled lines background */
+        .page-journal::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent,
+                transparent 31px,
+                rgba(139, 120, 80, 0.12) 31px,
+                rgba(139, 120, 80, 0.12) 32px
+            );
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Red margin line */
+        .page-journal .margin-line {
+            position: absolute;
+            left: 45px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: rgba(200, 80, 80, 0.15);
+            z-index: 0;
+        }
+
+        /* ========== WASHI TAPE STYLES ========== */
+        .washi-tape {
+            position: absolute;
+            height: 28px;
+            z-index: 10;
+            opacity: 0.8;
+            border-radius: 1px;
+        }
+
+        .washi-chocolate {
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(139, 69, 19, 0.4),
+                rgba(139, 69, 19, 0.4) 5px,
+                rgba(160, 100, 40, 0.4) 5px,
+                rgba(160, 100, 40, 0.4) 10px
+            );
+            width: 100px;
+        }
+
+        .washi-pink {
+            background: repeating-linear-gradient(
+                -45deg,
+                rgba(255, 182, 193, 0.5),
+                rgba(255, 182, 193, 0.5) 4px,
+                rgba(255, 150, 170, 0.5) 4px,
+                rgba(255, 150, 170, 0.5) 8px
+            );
+            width: 90px;
+        }
+
+        .washi-gold {
+            background: repeating-linear-gradient(
+                90deg,
+                rgba(218, 165, 32, 0.35),
+                rgba(218, 165, 32, 0.35) 3px,
+                rgba(255, 215, 0, 0.25) 3px,
+                rgba(255, 215, 0, 0.25) 6px
+            );
+            width: 85px;
+        }
+
+        .washi-blue {
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(100, 149, 237, 0.35),
+                rgba(100, 149, 237, 0.35) 4px,
+                rgba(135, 180, 255, 0.3) 4px,
+                rgba(135, 180, 255, 0.3) 8px
+            );
+            width: 95px;
+        }
+
+        .washi-mint {
+            background: repeating-linear-gradient(
+                -30deg,
+                rgba(150, 220, 180, 0.4),
+                rgba(150, 220, 180, 0.4) 5px,
+                rgba(120, 200, 160, 0.35) 5px,
+                rgba(120, 200, 160, 0.35) 10px
+            );
+            width: 88px;
+        }
+
+        /* ========== STICKER STYLES ========== */
+        .sticker {
+            position: absolute;
+            z-index: 12;
+            font-size: 28px;
+            filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.2));
+            transition: transform 0.3s ease;
+        }
+
+        .sticker:hover {
+            transform: scale(1.2) rotate(5deg) !important;
+        }
+
+        .disney-sticker {
+            font-size: 32px;
+        }
+
+        .choco-sticker {
+            font-size: 26px;
+        }
+
+        /* ========== POLAROID PHOTO STYLE ========== */
+        .polaroid-frame {
+            position: relative;
+            background: #fff;
+            padding: 10px 10px 40px 10px;
+            box-shadow: 
+                0 3px 15px rgba(0,0,0,0.2),
+                0 0 0 1px rgba(0,0,0,0.05),
+                inset 0 0 20px rgba(0,0,0,0.03);
+            margin: 15px 0;
+            max-width: 340px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .page:nth-child(odd) .polaroid-frame {
+            transform: rotate(-2deg);
+        }
+
+        .page:nth-child(even) .polaroid-frame {
+            transform: rotate(1.5deg);
+        }
+
+        .page:hover .polaroid-frame {
+            transform: rotate(0deg) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+        }
+
+        .polaroid-frame img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            filter: sepia(10%) saturate(95%) brightness(100%) contrast(95%);
+            transition: filter 0.4s ease;
+        }
+
+        .page:hover .polaroid-frame img {
+            filter: sepia(0%) saturate(110%) brightness(102%) contrast(100%);
+        }
+
+        .polaroid-caption {
+            position: absolute;
+            bottom: 8px;
+            left: 15px;
+            right: 15px;
+            font-family: 'Caveat', cursive;
+            color: #555;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        /* ========== JOURNAL ENTRY STYLES ========== */
+        .journal-date-stamp {
+            font-family: 'Patrick Hand', cursive;
+            color: #a07050;
+            font-size: 13px;
+            letter-spacing: 2px;
+            align-self: flex-end;
+            margin-right: 10px;
+            margin-bottom: 5px;
+            padding: 3px 12px;
+            border: 1px dashed rgba(160, 112, 80, 0.4);
+            border-radius: 3px;
+            background: rgba(255, 240, 210, 0.5);
+        }
+
+        .journal-title {
+            font-family: 'Dancing Script', cursive;
+            color: #5C2E0E;
+            font-size: 30px;
+            margin: 8px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .journal-title-underline {
+            width: 80%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #c4956a, transparent);
+            margin: 0 auto 8px;
+        }
+
+        .journal-text {
+            font-family: 'Caveat', cursive;
+            color: #4a3520;
+            font-size: 19px;
+            line-height: 1.7;
+            text-align: center;
+            max-width: 360px;
+            padding: 0 10px;
+            position: relative;
+        }
+
+        .journal-quote {
+            font-family: 'Shadows Into Light', cursive;
+            color: #7B3F1B;
+            font-size: 15px;
+            font-style: italic;
+            margin-top: 8px;
+            padding: 8px 15px;
+            border-left: 3px solid rgba(139, 69, 19, 0.3);
+            background: rgba(255, 240, 215, 0.4);
+            border-radius: 0 5px 5px 0;
+            text-align: left;
+            max-width: 340px;
+            position: relative;
+        }
+
+        .journal-quote::before {
+            content: '✨ ';
+        }
+
+        /* Disney quote label */
+        .quote-source {
+            display: block;
+            font-size: 12px;
+            color: #a08060;
+            margin-top: 3px;
+            font-style: normal;
+        }
+
+        /* ========== CHOCOLATE BADGE ========== */
+        .choco-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-family: 'Patrick Hand', cursive;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .badge-kinder {
+            background: linear-gradient(135deg, #fff5e6, #ffe8cc);
+            color: #c0600a;
+            border: 1px solid rgba(200, 100, 20, 0.3);
+        }
+
+        .badge-dairy {
+            background: linear-gradient(135deg, #f0e6ff, #e6d5ff);
+            color: #5a2d82;
+            border: 1px solid rgba(100, 50, 150, 0.3);
+        }
+
+        .badge-ferrero {
+            background: linear-gradient(135deg, #fff8e6, #ffe6a0);
+            color: #8B6914;
+            border: 1px solid rgba(180, 140, 40, 0.3);
+        }
+
+        .badge-kitkat {
+            background: linear-gradient(135deg, #ffe6e6, #ffcccc);
+            color: #cc0000;
+            border: 1px solid rgba(200, 0, 0, 0.2);
+        }
+
+        /* ========== DOODLE DECORATIONS ========== */
+        .doodle-heart {
+            position: absolute;
+            color: rgba(200, 80, 80, 0.2);
+            font-size: 40px;
+            z-index: 0;
+        }
+
+        .doodle-star {
+            position: absolute;
+            color: rgba(218, 165, 32, 0.2);
+            font-size: 20px;
+            z-index: 0;
+        }
+
+        /* ========== POSTAGE STAMP ========== */
+        .postage-stamp {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 55px;
+            height: 65px;
+            background: #fff;
+            border: 2px dashed rgba(139, 69, 19, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            z-index: 12;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            transform: rotate(5deg);
+        }
+
+        .stamp-text {
+            font-family: 'Patrick Hand', cursive;
+            font-size: 7px;
+            color: #a07050;
+            text-align: center;
+            position: absolute;
+            bottom: 3px;
+        }
+
+        /* ========== PAGE ORNAMENTS ========== */
+        .page-ornament-bottom {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #c4a265;
+            font-size: 14px;
+            opacity: 0.5;
+            margin-top: auto;
+            padding-top: 5px;
+        }
+
+        .page-ornament-bottom::before,
+        .page-ornament-bottom::after {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #c4a265, transparent);
+        }
+
+        /* Page number */
+        .page-num {
+            font-family: 'Playfair Display', serif;
+            color: #b09070;
+            font-size: 11px;
+            letter-spacing: 3px;
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* ========== BACK COVER ========== */
+        .cover-back {
+            background: 
+                repeating-linear-gradient(
+                    -45deg,
+                    transparent,
+                    transparent 35px,
+                    rgba(160, 100, 40, 0.06) 35px,
+                    rgba(160, 100, 40, 0.06) 70px
+                ),
+                linear-gradient(160deg, #4A2508 0%, #6B3410 30%, #7B3F1B 50%, #5C2E0E 70%, #3D1F06 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid #a0764a;
+            box-shadow: 
+                inset 0 0 80px rgba(0,0,0,0.6),
+                8px 8px 25px rgba(0,0,0,0.6);
+            position: relative;
+        }
+
+        .cover-back::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.1'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        .cover-back::after {
+            content: '';
+            position: absolute;
+            top: 12px; left: 12px; right: 12px; bottom: 12px;
+            border: 2px solid rgba(212, 165, 116, 0.35);
+            border-radius: 5px;
+            pointer-events: none;
+        }
+
+        .back-cover-content {
+            text-align: center;
+            padding: 30px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .back-disney-row {
+            font-size: 28px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .heart-decoration {
+            color: #d47050;
+            font-size: 38px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.15); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+        }
+
+        .back-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 44px;
+            color: #f0d5a8;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+        }
+
+        .back-subtitle {
+            font-family: 'Caveat', cursive;
+            color: #d4a574;
+            font-size: 20px;
+            margin: 8px 0;
+        }
+
+        .back-divider {
+            color: #c4a265;
+            font-size: 16px;
+            margin: 15px 0;
+            letter-spacing: 8px;
+        }
+
+        .back-message {
+            font-family: 'Caveat', cursive;
+            color: #d4b896;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        .back-choco-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            font-size: 22px;
+            margin: 15px 0;
+        }
+
+        .back-signature {
+            font-family: 'Dancing Script', cursive;
+            color: #f0d5a8;
+            font-size: 22px;
+            margin-top: 20px;
+            line-height: 1.8;
+        }
+
+        .signature-heart {
+            font-size: 36px;
+            display: block;
+            margin-top: 5px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        /* ========== NAVIGATION ========== */
+        .navigation {
+            display: flex;
+            gap: 25px;
+            z-index: 100;
+            margin-top: 12px;
+        }
+
+        .nav-btn {
+            font-family: 'Caveat', cursive;
+            padding: 10px 28px;
+            border: 2px solid #d4a574;
+            background: rgba(30, 15, 5, 0.85);
+            color: #d4a574;
+            font-size: 18px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, #d4a574, #c09060);
+            color: #1a0e08;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(212, 165, 116, 0.35);
+        }
+
+        .nav-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.25;
+            cursor: not-allowed;
+            transform: none !important;
+            background: rgba(30, 15, 5, 0.85) !important;
+            color: #d4a574 !important;
+            box-shadow: none !important;
+        }
+
+        /* ========== MUSIC BUTTON ========== */
+        .music-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #d4a574;
+            background: rgba(30, 15, 5, 0.85);
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+
+        .music-btn:hover {
+            background: #d4a574;
+            transform: scale(1.1);
+        }
+
+        .music-btn.playing {
+            animation: musicPulse 1.5s ease-in-out infinite;
+            border-color: #e8c090;
+        }
+
+        @keyframes musicPulse {
+            0%, 100% { box-shadow: 0 0 5px rgba(212, 165, 116, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(212, 165, 116, 0.6); }
+        }
+
+        /* ========== Z-INDEX STACKING ========== */
+        #page-0  { z-index: 17; }
+        #page-1  { z-index: 16; }
+        #page-2  { z-index: 15; }
+        #page-3  { z-index: 14; }
+        #page-4  { z-index: 13; }
+        #page-5  { z-index: 12; }
+        #page-6  { z-index: 11; }
+        #page-7  { z-index: 10; }
+        #page-8  { z-index: 9; }
+        #page-9  { z-index: 8; }
+        #page-10 { z-index: 7; }
+        #page-11 { z-index: 6; }
+        #page-12 { z-index: 5; }
+        #page-13 { z-index: 4; }
+        #page-14 { z-index: 3; }
+        #page-15 { z-index: 2; }
+        #page-16 { z-index: 1; }
+
+        /* ========== CHOCOLATE WRAPPER DIVIDER ========== */
+        .choco-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 16px;
+            margin: 5px 0;
+            opacity: 0.7;
+        }
+
+        /* ========== DISNEY FAIRY DUST TRAIL ========== */
+        .fairy-dust {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.8);
+            box-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
+            pointer-events: none;
+            z-index: 20;
+            animation: dustFade 1s ease-out forwards;
+        }
+
+        @keyframes dustFade {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0) translateY(-20px); opacity: 0; }
+        }
+
+        /* ========== RESPONSIVE DESIGN ========== */
+        @media (max-width: 600px) {
+            .book {
+                width: 340px;
+                height: 560px;
+            }
+
+            .cover-title {
+                font-size: 34px;
+            }
+
+            .cover-title-sub {
+                font-size: 20px;
+            }
+
+            .cover-frame {
+                padding: 20px 25px;
+                margin: 10px 20px;
+            }
+
+            .polaroid-frame img {
+                height: 180px;
+            }
+
+            .polaroid-frame {
+                max-width: 280px;
+                padding: 8px 8px 35px 8px;
+            }
+
+            .journal-title {
+                font-size: 24px;
+            }
+
+            .journal-text {
+                font-size: 16px;
+            }
+
+            .journal-quote {
+                font-size: 13px;
+            }
+
+            .page-journal {
+                margin: 10px;
+                padding: 12px 10px;
+            }
+
+            .navigation {
+                gap: 12px;
+            }
+
+            .nav-btn {
+                padding: 8px 20px;
+                font-size: 15px;
+            }
+
+            .back-title {
+                font-size: 32px;
+            }
+
+            .back-message {
+                font-size: 15px;
+            }
+
+            .sticker { font-size: 22px; }
+            .disney-sticker { font-size: 26px; }
+            .postage-stamp { width: 45px; height: 55px; }
+            .cover-castle { font-size: 36px; }
+        }
+
+        @media (max-width: 380px) {
+            .book {
+                width: 295px;
+                height: 490px;
+            }
+
+            .polaroid-frame img {
+                height: 150px;
+            }
+
+            .cover-title {
+                font-size: 28px;
+            }
+
+            .cover-frame {
+                padding: 15px 18px;
+            }
+
+            .journal-title {
+                font-size: 20px;
+            }
+
+            .journal-text {
+                font-size: 14px;
+            }
+        }
+
+        /* ========== LOADING ANIMATION ========== */
+        .page-content .page-journal > * {
+            animation: journalFadeIn 0.6s ease-out both;
+        }
+
+        @keyframes journalFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ========== CHOCOLATE FOIL SHIMMER ========== */
+        .shimmer {
+            background: linear-gradient(
+                110deg,
+                transparent 20%,
+                rgba(255, 215, 0, 0.1) 40%,
+                rgba(255, 215, 0, 0.2) 50%,
+                rgba(255, 215, 0, 0.1) 60%,
+                transparent 80%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* ========== INK SPLATTER ========== */
+        .ink-splatter {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50% 40% 50% 45%;
+            background: rgba(60, 30, 10, 0.06);
+            z-index: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Page counter -->
+    <div class="page-counter" id="pageCounter">Cover</div>
+
+    <!-- Book -->
+    <div class="book-wrapper">
+        <div class="book" id="book">
+
+            <!-- ★ COVER PAGE ★ -->
+            <div class="page cover-page" id="page-0">
+                <div class="page-inner cover-front">
+                    <span class="cover-disney-sparkle">🏰</span>
+                    <span class="cover-disney-left">✨</span>
+
+                    <div class="cover-chocolate-top">
+                        <span>🍫</span><span>🎀</span><span>🍫</span>
+                    </div>
+
+                    <div class="cover-frame shimmer">
+                        <div class="cover-castle">🏰</div>
+                        <h1 class="cover-title">Our Sweet<br>Fairy Tale</h1>
+                        <p class="cover-title-sub">~ A Love Story ~</p>
+
+                        <div class="cover-divider">
+                            <span>❦</span>
+                        </div>
+
+                        <p class="cover-subtitle">
+                            A journal of moments<br>
+                            sweeter than chocolate<br>
+                            & more magical than Disney
+                        </p>
+
+                        <div class="cover-chocolate-row">
+                            <span>🥚</span>
+                            <span>💜</span>
+                            <span>🍬</span>
+                            <span>⭐</span>
+                            <span>🍩</span>
+                        </div>
+
+                        <p class="cover-date">~ Written with love & chocolate stains ~</p>
+                    </div>
+
+                    <div class="cover-bottom-choco">
+                        <span>✨</span><span>🍫</span><span>💕</span><span>🍫</span><span>✨</span>
+                    </div>
+
+                    <p class="open-instruction">tap to open our story →</p>
+                </div>
+            </div>
+
+            <!-- ★ PAGE 1 ★ -->
+            <div class="page" id="page-1">
+                <div class="page-inner page-content">
+                    <div class="page-journal">
+                        <div class="margin-line"></div>
+
+                        <!-- Washi tape -->
+                        <div class="washi-tape washi-chocolate" style="top: -5px; left: 30px; transform: rotate(-3deg);"></div>
+                        <div class="washi-tape washi-pink" style="top: -8px; right: 25px; transform: rotate(4deg);"></div>
+
+                        <!-- Stickers -->
+                        <span class="sticker disney-sticker" style="top: 10px; right: 15px; transform: rotate(12deg);">🐭</span>
+                        <span class="sticker choco-sticker" style="bottom: 35px; left: 15px; transform: rotate(-8deg);">🍫</span>
+
+                        <!-- Postage stamp -->
+                        <div class="postage-stamp" style="top: 45px; right: 12px;">
+                            <span>💌</span>
+                            <span class="stamp-text">WITH LOVE</span>
+                        </div>
+
+                        <!-- Doodles -->
+                        <span class="doodle-heart" style="bottom: 60px; right: 30px;">♡</span>
+                        <span class="doodle-star" style="top: 80px; left: 20px;">✦</span>
+
+                        <!-- Ink splatters -->
+                        <div class="ink-splatter" style="top: 45px; left: 55px;"></div>
+
+                        <div class="journal-date-stamp">📅 January 2024</div>
+
+                        <div class="polaroid-frame">
+                            <img src="photos/photo1.jpg" alt="Where It All Began"
+                                 onerror="this.src='https://picsum.photos/seed/love1/400/300'">
+                            <span class="polaroid-caption">the day everything changed ♡</span>
+                        </div>
+
+                        <h2 class="journal-title">Where It All Began</h2>
+                        <div class="journal-title-underline"></div>
+
+                        <p class="journal-text">
+                            The day my world changed forever. One look at you and I knew — this was the beginning of something beautiful. Like a Kinder Joy surprise, you were the sweetest thing I never expected. 🥚
+                        </p>
+
+                        <div class="journal-quote">
+                            "All at once everything looks different, now that I see you."
+                            <span class="quote-source">— Rapunzel, Tangled 🏰</span>
+                        </div>
+
+                        <span class="choco-badge badge-kinder">🥚 Sweet as a Kinder Surprise</span>
+
+                        <div class="page-ornament-bottom">
+                            <span>🍫</span> ❧ <span>🍫</span>
+                        </div>
+                        <span class="page-num">— 1 —</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ★ PAGE 2 ★ -->
+            <div class="page" id="page-2">
+                <div class="page-inner page-content">
+                    <div class="page-journal">
+                        <div class="margin-line"></div>
+
+                        <div class="washi-tape washi-gold" style="top: -6px; left: 50px; transform: rotate(2deg);"></div>
+                        <div class="washi-tape washi-blue" style="top: -5px; right: 35px; transform: rotate(-5deg);"></div>
+
+                        <span class="sticker disney-sticker" style="top: 8px; left: 10px; transform: rotate(-10deg);">🧸</span>
+                        <span class="sticker choco-sticker" style="bottom: 40px; right: 18px; transform: rotate(15deg);">🍬</span>
+                        <span class="doodle-star" style="top: 60px; right: 20px;">⭐</span>
+                        <span class="doodle-heart" style="bottom: 80px; left: 25px;">♡</span>
+
+                        <div class="journal-date-stamp">📅 February 2024</div>
+
+                        <div class="polaroid-frame">
+                            <img src="photos/photo2.jpg" alt="First Adventures"
+                                 onerror="this.src='https://picsum.photos/seed/love2/400/300'">
+                            <span class="polaroid-caption">our first adventure together! 🌟</span>
+                        </div>
+
+                        <h2 class="journal-title">First Adventures ✨</h2>
+                        <div class="journal-title-underline"></div>
+
+                        <p class="journal-text">
+                            Every moment with you feels like an adventure — like Aladdin showing Jasmine a whole new world. Even the simplest things become extraordinary when you're next to me. 🧞
+                        </p>
+
+                        <div class="journal-quote">
+                            "I can show you the world... shining, shimmering, splendid."
+                            <span class="quote-source">— Aladdin 🧞‍♂️</span>
+                        </div>
+
+                        <span class="choco-badge badge-dairy">💜 Smooth like Dairy Milk silk</span>
+
+                        <div class="page-ornament-bottom">
+                            <span>✨</span> ❧ <span>✨</span>
+                        </div>
+                        <span class="page-num">— 2 —</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ★ PAGE 3 ★ -->
+            <div class="page" id="page-3">
+                <div class="page-inner page-content">
+                    <div class="page-journal">
+                        <div class="margin-line"></div>
+
+                        <div class="washi-tape washi-pink" style="top: -5px; left: 40px; transform: rotate(-2deg);"></div>
+                        <div class="washi-tape washi-mint" style="top: -7px; right: 30px; transform: rotate(3deg);"></div>
+
+                        <span class="sticker disney-sticker" style="top: 12px; right: 12px; transform: rotate(8deg);">🦁</span>
+                        <span class="sticker choco-sticker" style="bottom: 38px; left: 20px; transform: rotate(-12deg);">🍩</span>
+
+                        <div class="postage-stamp" style="top: 42px; left: 12px; transform: rotate(-5deg);">
+                            <span>⭐</span>
+                            <span class="stamp-text">MAGIC</span>
+                        </div>
+
+                        <div class="journal-date-stamp">📅 March 2024</div>
+
+                        <div class="polaroid-frame">
+                            <img src="photos/photo3.jpg" alt="Your Smile"
+                                 onerror="this.src='https://picsum.photos/seed/love3/400/300'">
+                            <span class="polaroid-caption">that smile though 😍</span>
+                        </div>
+
+                        <h2 class="journal-title">Your Smile 🌞</h2>
+                        <div class="journal-title-underline"></div>
+
+                        <p class="journal-text">
+                            That smile lights up every room you walk into. Like the sunrise in The Lion King — powerful, warm, and absolutely breathtaking. My favorite sight in the whole world.
+                        </p>
+
+                        <div class="journal-quote">
+                            "Oh yes, the past can hurt. But the way I see it, you can either run from it or learn from it."
+                            <span class="quote-source">— Rafiki, The Lion King 🦁</span>
+                        </div>
+
+                        <span class="choco-badge badge-ferrero">🌟 Golden like Ferrero Rocher</span>
+
+                        <div class="page-ornament-bottom">
+                            <span>🍫</span> ❧ <span>🍫</span>
+                        </div>
+                        <span class="page-num">— 3 —</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ★ PAGE 4 ★ -->
+            <div class="page" id="page-4">
+                <div class="page-inner page-content">
+                    <div class="page-journal">
+                        <div class="margin-line"></div>
+
+                        <div class="washi-tape washi-chocolate" style="top: -6px; left: 35px; transform: rotate(3deg);"></div>
+                        <div class="washi-tape washi-gold" style="top: -5px; right: 40px; transform: rotate(-4deg);"></div>
+
+                        <span class="sticker disney-sticker" style="top: 10px; left: 12px; transform: rotate(-5deg);">🧜‍♀️</span>
+                        <span class="sticker" style="bottom: 42px; right: 15px; transform: rotate(10deg);">🥚</span>
+
+                        <span class="doodle-heart" style="top: 70px; right: 25px;">♡</span>
+                        <div class="ink-splatter" style="bottom: 100px; right: 60px;"></div>
+
+                        <div class="journal-date-stamp">📅 March 2024</div>
+
+                        <div class="polaroid-frame">
+                            <img src="photos/photo4.jpg" alt="Little Moments"
+                                 onerror="this.src='https://picsum.photos/seed/love4/400/300'">
+                            <span class="polaroid-caption">these little moments mean everything 💫</span>
+                        </div>
+
+                        <h2 class="journal-title">Little Moments 🐚</h2>
+                        <div class="journal-title-underline"></div>
+
+                        <p class="journal-text">
+                            It's the little moments that matter most — holding hands, shared laughs, comfortable silences. Like the layers inside a Kinder Joy, every little thing about us has a surprise inside. 🥚✨
+                        </p>
+
+                        <div class="journal-quote">
+                            "But who cares? No big deal. I want more..."
+                            <span class="quote-source">— Ariel, The Little Mermaid 🧜‍♀️</span>
+                        </div>
+
+                        <span class="choco-badge badge-kinder">🥚 Layers of Kinder Joy happiness</span>
+
+                        <div class="page-ornament-bottom">
+                            <span>🐚</span> ❧ <span>🐚</span>
+                        </div>
+                        <span class="page-num">— 4 —</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ★ PAGE 5 ★ -->
+            <div class="page" id="page-5">
+                <div class="page-inner page-content">
+                    <div class="page-journal">
+                        <div class="margin-line"></div>
+
+                        <div class="washi-tape washi-blue" style="top: -5px; left: 45px; transform: rotate(-3deg);"></div>
+                        <div class="washi-tape washi-pink" style="top: -7px; right: 28px; transform: rotate(5deg);"></div>
+
+                        <span class="sticker disney-sticker" style="top: 8px; right: 15px; transform: rotate(6deg);">🐻</span>
+                        <span class="sticker choco-sticker" style="bottom: 35px; left: 15px; transform: rotate(-10deg);">🍫</span>
+
+                        <div class="postage-stamp" style="top: 48px; right: 10px; transform: rotate(3deg);">
+                            <span>🏠</span>
+                            <span class="stamp-text">HOME</span>
+                        </div>
+
+                        <span class="doodle-star" style="bottom: 70px; right: 40px;">✦</span>
+
+                        <div class="journal-date-stamp">📅 April 2024</div>
+
+                        <div class="polaroid-frame">
+                            <img src="photos/photo5.jpg" alt="Our Happy Place"
+                                 onerror="this.src='https://picsum.photos/seed/love5/400/300'">
+                            <span class="polaroid-caption">home is wherever you are 🏡</span>
+                        </div>
+
+                        <h2 class="journal-title">Our Happy Place 🏡</h2>
+                        <div class="journal-title-underline"></div>
+
+                        <p class="journal-text">
+                            Wherever you are, that's my happy place. Home isn't a location — it's you. Like Winnie the Pooh said about his favorite spot — it's better with you beside me. 🍯
+                        </p>
+
+                        <div class="journal-quote">
+                            "If there ever comes a day when we can't be together, keep me in your heart. I'll stay there forever."
+                            <span class="quote-source">— Winnie the Pooh 🐻</span>
+                        </div>
+
+                        <span class="choco-badge badge-dairy">💜 Comfort of Dairy Milk</span>
+
+                        <div class="page-ornament-bottom">
+                            <span>🍯</span> ❧ <span>🍯</span>
+                        </div>
+                        <span class="page-num">— 5 —</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ★ PAGE 6 ★ -->
+            <div class="page" id="page-6">
+                <div class="page-inner page-content">
+                    <div class="page-journal">
+                        <div class="margin-line"></div>
+
+                        <div class="washi-tape washi-gold" style="top: -5px; left: 30px; transform: rotate(2deg);"></div>
+                        <div class="washi-tape washi-mint" style="top: -6px; right: 35px; transform: rotate(-3deg);"></div>
+
+                        <span class="sticker disney-sticker" style="top: 10px; left: 10px; transform: rotate(-8deg);">👸</span>
+                        <span class="sticker choco-sticker" style="bottom: 40px; right: 20px; transform: rotate(12deg);">🌹</span>
+
+                        <span class="doodle-heart" style="top: 85px; right: 20px;">♡</span>
+                        <div class="ink-splatter" style="top: 50px; right: 70px;"></div>
+
+                        <div class="journal-date-stamp">📅 May 2024</div>
+
+                        <div class="polaroid-frame">
+                            <img src="photos/photo6.jpg" alt="Sunset Together"
+                                 onerror="this.src='https://picsum.photos/seed/love6/400/300'">
+                            <span class="polaroid-caption">golden hour with my golden person 🌅</span>
+                        </div>
+
+                        <h2 class="journal-title">Sunset Together 🌅</h2>
+                        <div class="journal-title-underline"></div>
+
+                        <p class="journal-text">
+                            Watching sunsets with you is like unwrapping a Ferrero Rocher — golden, precious, and absolutely wonderful. The best things in life are shared with someone you love.
+                        </p>
+
+                        <div class="journal-quote">
+                            "Tale as old as time, song as old as rhyme..."
+                            <span class="quote-source">— Beauty and the Beast 🌹</span>
+                        </div>
+
+                        <span class="choco-badge badge-ferrero">🌟 Precious as Ferrero gold</span>
+
+                        <div class="page-ornament-bottom">
+                            <span>🌹</span> ❧ <span>🌹</span>
+                        </div>
+                        <span class="page-num">— 6 —</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ★ PAGE 7 ★ -->
+            <div class="page" id="page-7">
+                <div class="page-inner page-content">
+                    <div class="page-journal">
+                        <div class="margin-line"></div>
+
+                        <div class="washi-tape washi-pink" style="top: -5px; left: 40px; transform: rotate(-4deg);"></div>
+                        <div class="washi-tape washi-chocolate" style="top: -6px; right: 30px; transform: rotate(2deg);"></div>
+
+                        <span class="sticker disney-sticker" style="top: 12px; right: 10px; transform: rotate(10deg);">🐠</span>
+                        <span class="sticker" style="bottom: 38px; left: 18px; transform: rotate(-6deg);">🎪</span>
+
+                        <span class="doodle-star" style="top: 65px; left: 18px;">✦</span>
+                        <span class="doodle-heart" style="bottom: 65px; right: 35px;">♡</span>
+
+                        <div class="journal-date-stamp">📅 June 2024</div>
+
+                        <div class="polaroid-frame">
+                            <img src="photos/photo7.jpg" alt="Silly Us"
+                                 onerror="this.src='https://picsum.photos/seed/love7/400/300'">
+                            <span class="polaroid-caption">goofballs in love 🤪💕</span>
+                        </div>
+
+                        <h2 class="journal-title">Silly Us 🤪</h2>
+                        <div class="journal-title-underline"></div>
+
+                        <p class="journal-text">
+                            Being silly with you is the best feeling! You bring out the goofiest, happiest version of me. Like Dory says — just keep swimming, just keep laughing! 🐟
+                        </p>
+
+                        <div class="journal-quote">
+                            "Just keep swimming, just keep swimming!"
+                            <span class="quote-source">— Dory, Finding Nemo 🐠</span>
+                        </div>
+
+                        <span class="choco-badge badge-kitkat">🍫 Take a break with KitKat fun!</span>
+
+                        <div class="page-ornament-bottom">
+                            <span>🐠</span> ❧ <span>🐠</span>
+                        </div>
+                        <span class="page-num">— 7 —</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ★ PAGE 8 ★ -->
+            <div class="page" id="page-8">
+                <div class="page-inner page-content">
+                    <div class="page-journal">
+                        <div class="margin-line"></div>
+
+                        <div class="washi-tape washi-gold" style="top: -5px; left: 35px; transform: rotate(3deg);"></div>
+                        <div class="washi-tape washi-blue" style="top: -7px; right: 32px; transform: rotate(-2deg);"></div>
+
+                        <span class="sticker disney-sticker" style="top: 8px; left: 12px; transform: rotate(-12deg);">🐸</span>
+                        <span class="sticker choco-sticker" style="bottom: 42px; right: 15px; transform: rotate(8deg);">💜</span>
+
+                        <div class="postage-stamp" style="top: 45px; right: 12px; transform: rotate(-3deg);">
+                            <span>🌙</span>
+                            <span class="stamp-text">DREAM</span>
+                        </div>
+
+                        <div class="journal-date-stamp">📅 July 2024</div>
+
+                        <div class="polaroid-frame">
+                            <img src="photos/photo8.jpg" alt="Date Night"
+                                 onerror="this.src='https://picsum.photos/seed/love8/400/300'">
+                            <span class="polaroid-caption">butterflies every single time 🦋</span>
+                        </div>
+
+                        <h2 class="journal-title">Date Night 🌙</h2>
+                        <div class="journal-title-underline"></div>
+
+                        <p class="journal-text">
+                            Every date with you feels like the first one — butterflies and all. Rich and delightful, like biting into Dairy Milk Silk. You still make my heart race. 💜
+                        </p>
+
+                        <div class="journal-quote">
+                            "My dream wouldn't be complete without you in it."
+                            <span class="quote-source">— Tiana, The Princess & the Frog 🐸</span>
+                        </div>
+
+                        <span class="choco-badge badge-dairy">💜 Silky smooth like Dairy Milk</span>
+
+                        <div class="page-ornament-bottom">
+                            <span>🌙</span> ❧ <span>🌙</span>
+                        </div>
+                        <span class="page-num">— 8 —</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ★ PAGE 9 ★ -->
+            <div class="page" id="page-9">
+                <div class="page-inner page-content">
+                    <div class="page-journal">
+                        <div class="margin-line"></div>
+
+                        <div class="washi-tape washi-mint" style="top: -5px; left: 42px; transform: rotate(-2deg);"></div>
+                        <div class="washi-tape washi-pink" style="top: -6px; right: 28px; transform: rotate(4deg);"></div>
+
+                        <span class="sticker disney-sticker" style="top: 10px; right: 12px; transform: rotate(5deg);">⛄</span>
+                        <span class="sticker choco-sticker" style="bottom: 35px; left: 15px; transform: rotate(-15deg);">🍬</span>
+
+                        <span class="doodle-star" style="top: 75px; right: 25px;">✦</span>
+                        <div class="ink-splatter" style="bottom: 90px; left: 50px;"></div>
+
+                        <div class="journal-date-stamp">📅 August 2024</div>
+
+                        <div class="polaroid-frame">
+                            <img src="photos/photo9.jpg" alt="My Favorite Person"
+                                 onerror="this.src='https://picsum.photos/seed/love9/400/300'">
+                            <span class="polaroid-caption">my absolute favorite human 👑</span>
+                        </div>
+
+                        <h2 class="journal-title">My Favorite Person 👑</h2>
+                        <div class="journal-title-underline"></div>
+
+                        <p class="journal-text">
+                            Out of all the people in this world, you're my absolute favorite. Like Olaf's love for warm hugs — my love for you is pure, wholesome, and infinite. ⛄💕
+                        </p>
+
+                        <div class="journal-quote">
+                            "Some people are worth melting for."
+                            <span class="quote-source">— Olaf, Frozen ⛄</span>
+                        </div>
+
+                        <span class="choco-badge badge-kinder">🥚 You're MY Kinder Surprise!</span>
+
+                        <div class="page-ornament-bottom">
+                            <span>❄️</span> ❧ <span>❄️</span>
+                        </div>
+                        <span class="page-num">— 9 —</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ★ PAGE 10 ★ -->
+            <div class="page" id="page-10">
+                <div class="page-inner page-content">
+                    <div class="page-journal">
+                        <div class="margin-line"></div>
+
+                        <div class="washi-tape washi-chocolate" style="top: -6px; left: 38px; transform: rotate(2deg);"></div>
+                        <div class="washi-tape washi-gold" style="top: -5px; right: 35px; transform: rotate(-3deg);"></div>
+
+                        <span class="sticker disney-sticker" style="top: 12px; left: 10px; transform: rotate(-6deg);">🎋</span>
+                        <span class="sticker" style="bottom: 40px; right: 18px; transform: rotate(12deg);">🌺</span>
+
+                        <span class="doodle-heart" style="bottom: 70px; left: 22px;">♡</span>
+
+                        <div class="journal-date-stamp">📅 September 2024</div>
+
+                        <div class="polaroid-frame">
+                            <img src="photos/photo10.jpg" alt="Growing Together"
+                                 onerror="this.src='https://picsum.photos/seed/love10/400/300'">
+                            <span class="polaroid-caption">growing together, one day at a time 🌱</span>
+                        </div>
+
+                        <h2 class="journal-title">Growing Together 🌱</h2>
+                        <div class="journal-title-underline"></div>
+
+                        <p class="journal-text">
+                            Every day with you, I become a better person. Like the cherry blossom in Mulan — we bloom beautifully when the time is right. Thank you for growing alongside me. 🌸
+                        </p>
+
+                        <div class="journal-quote">
+                            "The flower that blooms in adversity is the most rare and beautiful of all."
+                            <span class="quote-source">— The Emperor, Mulan 🌸</span>
+                        </div>
+
+                        <span class="choco-badge badge-ferrero">🌟 Rich & layered like Ferrero</span>
+
+                        <div class="page-ornament-bottom">
+                            <span>🌸</span> ❧ <span>🌸</span>
+                        </div>
+                        <span class="page-num">— 10 —</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ★ PAGE 11 ★ -->
+            <div class="page" id="page-11">
+                <div class="page-inner page-content">
+                    <div class="page-journal">
+                        <div class="margin-line"></div>
+
+                        <div class="washi-tape washi-blue" style="top: -5px; left: 45px; transform: rotate(-3deg);"></div>
+                        <div class="washi-tape washi-chocolate" style="top: -7px; right: 30px; transform: rotate(3deg);"></div>
+
+                        <span class="sticker disney-sticker" style="top: 10px; right: 15px; transform: rotate(8deg);">🐾</span>
+                        <span class="sticker choco-sticker" style="bottom: 38px; left: 20px; transform: rotate(-10deg);">☕</span>
+
+                        <div class="postage-stamp" style="top: 48px; left: 12px; transform: rotate(-4deg);">
+                            <span>🌧️</span>
+                            <span class="stamp-text">COZY</span>
+                        </div>
+
+                        <div class="journal-date-stamp">📅 October 2024</div>
+
+                        <div class="polaroid-frame">
+                            <img src="photos/photo11.jpg" alt="Cozy Days"
+                                 onerror="this.src='https://picsum.photos/seed/love11/400/300'">
+                            <span class="polaroid-caption">rainy days are the best days ☔🧡</span>
+                        </div>
+
+                        <h2 class="journal-title">Cozy Days ☕</h2>
+                        <div class="journal-title-underline"></div>
+
+                        <p class="journal-text">
+                            Rainy days, warm blankets, hot chocolate, and you. That's my definition of a perfect day. Like Lady & the Tramp sharing spaghetti — it's the simple moments that are most romantic. 🍝
+                        </p>
+
+                        <div class="journal-quote">
+                            "Because when I look at you, I can feel it. And I look at you and I'm home."
+                            <span class="quote-source">— Dory, Finding Nemo 🐾</span>
+                        </div>
+
+                        <span class="choco-badge badge-dairy">💜 Warm like hot Dairy Milk cocoa</span>
+
+                        <div class="page-ornament-bottom">
+                            <span>☔</span> ❧ <span>☔</span>
+                        </div>
+                        <span class="page-num">— 11 —</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ★ PAGE 12 ★ -->
+            <div class="page" id="page-12">
+                <div class="page-inner page-content">
+                    <div class="page-journal">
+                        <div class="margin-line"></div>
+
+                        <div class="washi-tape washi-pink" style="top: -5px; left: 32px; transform: rotate(3deg);"></div>
+                        <div class="washi-tape washi-mint" style="top: -6px; right: 38px; transform: rotate(-4deg);"></div>
+
+                        <span class="sticker disney-sticker" style="top: 8px; left: 12px; transform: rotate(-12deg);">🎉</span>
+                        <span class="sticker choco-sticker" style="bottom: 42px; right: 15px; transform: rotate(6deg);">🎂</span>
+
+                        <span class="doodle-star" style="top: 70px; right: 20px;">⭐</span>
+                        <span class="doodle-heart" style="bottom: 60px; left: 30px;">♡</span>
+
+                        <div class="journal-date-stamp">📅 November 2024</div>
+
+                        <div class="polaroid-frame">
+                            <img src="photos/photo12.jpg" alt="Celebrations"
+                                 onerror="this.src='https://picsum.photos/seed/love12/400/300'">
+                            <span class="polaroid-caption">celebrating life with you! 🎊</span>
+                        </div>
+
+                        <h2 class="journal-title">Celebrations 🎉</h2>
+                        <div class="journal-title-underline"></div>
+
+                        <p class="journal-text">
+                            Every milestone is sweeter because I celebrate it with you by my side. Like opening a box of assorted chocolates — each moment has a different, wonderful flavor! 🍫🎀
+                        </p>
+
+                        <div class="journal-quote">
+                            "To infinity and beyond!"
+                            <span class="quote-source">— Buzz Lightyear, Toy Story 🚀</span>
+                        </div>
+
+                        <span class="choco-badge badge-kitkat">🍫 Have a break, have a celebration!</span>
+
+                        <div class="page-ornament-bottom">
+                            <span>🎀</span> ❧ <span>🎀</span>
+                        </div>
+                        <span class="page-num">— 12 —</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ★ PAGE 13 ★ -->
+            <div class="page" id="page-13">
+                <div class="page-inner page-content">
+                    <div class="page-journal">
+                        <div class="margin-line"></div>
+
+                        <div class="washi-tape washi-gold" style="top: -5px; left: 40px; transform: rotate(-2deg);"></div>
+                        <div class="washi-tape washi-blue" style="top: -7px; right: 25px; transform: rotate(5deg);"></div>
+
+                        <span class="sticker disney-sticker" style="top: 10px; right: 12px; transform: rotate(10deg);">💎</span>
+                        <span class="sticker" style="bottom: 36px; left: 18px; transform: rotate(-8deg);">🌟</span>
+
+                        <div class="postage-stamp" style="top: 45px; right: 12px; transform: rotate(2deg);">
+                            <span>👁️</span>
+                            <span class="stamp-text">SPARKLE</span>
+                        </div>
+
+                        <div class="journal-date-stamp">📅 November 2024</div>
+
+                        <div class="polaroid-frame">
+                            <img src="photos/photo13.jpg" alt="Your Eyes"
+                                 onerror="this.src='https://picsum.photos/seed/love13/400/300'">
+                            <span class="polaroid-caption">lost in those eyes forever 🌌</span>
+                        </div>
+
+                        <h2 class="journal-title">Your Eyes 🌌</h2>
+                        <div class="journal-title-underline"></div>
+
+                        <p class="journal-text">
+                            I could get lost in those eyes for eternity. They sparkle brighter than any diamond, warmer than melted chocolate. I would never want to find my way back. ✨
+                        </p>
+
+                        <div class="journal-quote">
+                            "When you wish upon a star, your dreams come true."
+                            <span class="quote-source">— Pinocchio ⭐</span>
+                        </div>
+
+                        <span class="choco-badge badge-ferrero">🌟 Eyes that sparkle like gold foil</span>
+
+                        <div class="page-ornament-bottom">
+                            <span>💎</span> ❧ <span>💎</span>
+                        </div>
+                        <span class="page-num">— 13 —</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ★ PAGE 14 ★ -->
+            <div class="page" id="page-14">
+                <div class="page-inner page-content">
+                    <div class="page-journal">
+                        <div class="margin-line"></div>
+
+                        <div class="washi-tape washi-chocolate" style="top: -5px; left: 38px; transform: rotate(3deg);"></div>
+                        <div class="washi-tape washi-pink" style="top: -6px; right: 32px; transform: rotate(-3deg);"></div>
+
+                        <span class="sticker disney-sticker" style="top: 12px; left: 10px; transform: rotate(-7deg);">👑</span>
+                        <span class="sticker choco-sticker" style="bottom: 40px; right: 20px; transform: rotate(12deg);">🍫</span>
+
+                        <span class="doodle-heart" style="top: 80px; right: 22px;">♡</span>
+                        <span class="doodle-star" style="bottom: 75px; left: 25px;">✦</span>
+
+                        <div class="journal-date-stamp">📅 December 2024</div>
+
+                        <div class="polaroid-frame">
+                            <img src="photos/photo14.jpg" alt="My Everything"
+                                 onerror="this.src='https://picsum.photos/seed/love14/400/300'">
+                            <span class="polaroid-caption">you are my everything, literally 💗</span>
+                        </div>
+
+                        <h2 class="journal-title">My Everything 💗</h2>
+                        <div class="journal-title-underline"></div>
+
+                        <p class="journal-text">
+                            You're not just my partner — you're my best friend, my confidant, my everything. Like all the chocolate in the world wrapped into one perfect person. You're my whole heart.
+                        </p>
+
+                        <div class="journal-quote">
+                            "You are my greatest adventure."
+                            <span class="quote-source">— Mr. Incredible, The Incredibles 💪</span>
+                        </div>
+
+                        <span class="choco-badge badge-dairy">💜 All the Dairy Milk in the world</span>
+
+                        <div class="page-ornament-bottom">
+                            <span>👑</span> ❧ <span>👑</span>
+                        </div>
+                        <span class="page-num">— 14 —</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ★ PAGE 15 ★ -->
+            <div class="page" id="page-15">
+                <div class="page-inner page-content">
+                    <div class="page-journal">
+                        <div class="margin-line"></div>
+
+                        <div class="washi-tape washi-gold" style="top: -5px; left: 30px; transform: rotate(-3deg);"></div>
+                        <div class="washi-tape washi-mint" style="top: -7px; right: 30px; transform: rotate(4deg);"></div>
+                        <div class="washi-tape washi-pink" style="top: -4px; left: 50%; transform: translateX(-50%) rotate(1deg); width: 70px;"></div>
+
+                        <span class="sticker disney-sticker" style="top: 8px; right: 15px; transform: rotate(8deg);">🏰</span>
+                        <span class="sticker disney-sticker" style="top: 8px; left: 15px; transform: rotate(-8deg);">✨</span>
+                        <span class="sticker choco-sticker" style="bottom: 35px; left: 20px; transform: rotate(-12deg);">🍫</span>
+                        <span class="sticker choco-sticker" style="bottom: 35px; right: 20px; transform: rotate(12deg);">🥚</span>
+
+                        <div class="journal-date-stamp">📅 Forever & Always</div>
+
+                        <div class="polaroid-frame">
+                            <img src="photos/photo15.jpg" alt="Us, Always"
+                                 onerror="this.src='https://picsum.photos/seed/love15/400/300'">
+                            <span class="polaroid-caption">us, always & forever 💕✨</span>
+                        </div>
+
+                        <h2 class="journal-title">Us, Always & Forever 💕</h2>
+                        <div class="journal-title-underline"></div>
+
+                        <p class="journal-text">
+                            Here's to us — to every moment we've shared and every moment yet to come. Our story is sweeter than every chocolate combined, more magical than every Disney movie. I love you endlessly. 🏰🍫💕
+                        </p>
+
+                        <div class="journal-quote">
+                            "And they lived happily ever after..."
+                            <span class="quote-source">— Every Disney Story Ever 🏰✨</span>
+                        </div>
+
+                        <div class="choco-divider">
+                            🍫 🥚 💜 🌟 🍬
+                        </div>
+
+                        <span class="choco-badge badge-kinder">🥚 The sweetest surprise of my life</span>
+
+                        <div class="page-ornament-bottom">
+                            <span>✨</span> ❧ <span>✨</span>
+                        </div>
+                        <span class="page-num">— 15 —</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ★ BACK COVER ★ -->
+            <div class="page cover-page" id="page-16">
+                <div class="page-inner cover-back">
+                    <div class="back-cover-content">
+                        <div class="back-disney-row">
+                            <span>✨</span><span>🏰</span><span>✨</span>
+                        </div>
+
+                        <div class="heart-decoration">♥</div>
+
+                        <h2 class="back-title">The End?</h2>
+                        <p class="back-subtitle">No way... this is just Chapter One.</p>
+
+                        <div class="back-divider">~ ♥ ~</div>
+
+                        <p class="back-message">
+                            Every page of our story is my favorite,<br>
+                            but the best chapters are still unwritten.<br><br>
+                            Like the best chocolate — <br>
+                            our love only gets richer with time. 🍫<br><br>
+                            <em>And just like every Disney story...<br>
+                            Ours will have the happiest ending. 🏰</em>
+                        </p>
+
+                        <div class="back-choco-row">
+                            <span>🍫</span>
+                            <span>🥚</span>
+                            <span>💜</span>
+                            <span>🌟</span>
+                            <span>🍬</span>
+                        </div>
+
+                        <div class="back-signature">
+                            Forever & Always Yours,<br>
+                            <span class="signature-heart">❤️</span>
+                        </div>
+
+                        <div class="back-disney-row" style="margin-top: 15px;">
+                            <span>🐭</span><span>🏰</span><span>⭐</span><span>🧸</span><span>🍫</span>
+                        </div>
+
+                        <div class="heart-decoration">♥</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <button class="nav-btn prev-btn" id="prevBtn" onclick="prevPage()">
+            ◀ Previous Page
+        </button>
+        <button class="nav-btn next-btn" id="nextBtn" onclick="nextPage()">
+            Next Page ▶
+        </button>
+    </div>
+
+    <!-- Music button -->
+    <button class="music-btn" id="musicBtn" onclick="toggleMusic()">🎵</button>
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // ========== BOOK STATE ==========
+        let currentPage = 0;
+        const totalPages = 17;
+        let isAnimating = false;
+
+        // ========== INITIALIZE ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            updateNavigation();
+            setupKeyboardNav();
+            setupSwipeNav();
+            setupPageClicks();
+            setupSparkleTrail();
+        });
+
+        // ========== PAGE NAVIGATION ==========
+        function nextPage() {
+            if (currentPage >= totalPages - 1 || isAnimating) return;
+            isAnimating = true;
+            const page = document.getElementById(`page-${currentPage}`);
+
+            if (page) {
+                page.style.zIndex = 100;
+                page.classList.add('flipped');
+                playFlipSound();
+                createFlipSparkles(page);
+            }
+
+            currentPage++;
+            updateNavigation();
+
+            setTimeout(() => {
+                if (page) page.style.zIndex = 100 - currentPage;
+                isAnimating = false;
+            }, 1000);
+        }
+
+        function prevPage() {
+            if (currentPage <= 0 || isAnimating) return;
+            isAnimating = true;
+            currentPage--;
+
+            const page = document.getElementById(`page-${currentPage}`);
+            if (page) {
+                page.style.zIndex = 100;
+                page.classList.remove('flipped');
+                playFlipSound();
+                createFlipSparkles(page);
+            }
+
+            updateNavigation();
+
+            setTimeout(() => {
+                restoreZIndex();
+                isAnimating = false;
+            }, 1000);
+        }
+
+        // ========== Z-INDEX MANAGEMENT ==========
+        function restoreZIndex() {
+            for (let i = 0; i < totalPages; i++) {
+                const page = document.getElementById(`page-${i}`);
+                if (page) {
+                    page.style.zIndex = i < currentPage ? i : totalPages - i;
+                }
+            }
+        }
+
+        // ========== UPDATE UI ==========
+        function updateNavigation() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const counter = document.getElementById('pageCounter');
+
+            prevBtn.disabled = currentPage <= 0;
+            nextBtn.disabled = currentPage >= totalPages - 1;
+
+            if (currentPage === 0) {
+                counter.textContent = 'Cover';
+            } else if (currentPage === totalPages - 1) {
+                counter.textContent = 'Back Cover';
+            } else {
+                counter.textContent = `Page ${currentPage} of 15`;
+            }
+        }
+
+        // ========== KEYBOARD NAV ==========
+        function setupKeyboardNav() {
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === ' ') {
+                    e.preventDefault();
+                    nextPage();
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    prevPage();
+                }
+            });
+        }
+
+        // ========== SWIPE NAV ==========
+        function setupSwipeNav() {
+            let touchStartX = 0;
+            const book = document.getElementById('book');
+
+            book.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+
+            book.addEventListener('touchend', (e) => {
+                const diff = touchStartX - e.changedTouches[0].screenX;
+                if (diff > 50) nextPage();
+                else if (diff < -50) prevPage();
+            }, { passive: true });
+        }
+
+        // ========== PAGE CLICK NAV ==========
+        function setupPageClicks() {
+            document.querySelectorAll('.page').forEach(page => {
+                page.addEventListener('click', (e) => {
+                    if (e.target.closest('.nav-btn')) return;
+                    const rect = page.getBoundingClientRect();
+                    const clickX = e.clientX - rect.left;
+                    if (clickX > rect.width / 2) nextPage();
+                    else prevPage();
+                });
+            });
+        }
+
+        // ========== FLIP SPARKLE EFFECT ==========
+        function createFlipSparkles(page) {
+            const rect = page.getBoundingClientRect();
+            const sparkleEmojis = ['✨', '⭐', '💫', '🌟', '💕', '🍫'];
+
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.textContent = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
+                    sparkle.style.left = `${rect.left + Math.random() * 50}px`;
+                    sparkle.style.top = `${rect.top + Math.random() * rect.height}px`;
+                    sparkle.style.fontSize = `${12 + Math.random() * 12}px`;
+                    document.body.appendChild(sparkle);
+
+                    setTimeout(() => sparkle.remove(), 800);
+                }, i * 60);
+            }
+        }
+
+        // ========== SPARKLE CURSOR TRAIL ==========
+        function setupSparkleTrail() {
+            let lastTime = 0;
+            document.addEventListener('mousemove', (e) => {
+                const now = Date.now();
+                if (now - lastTime < 120) return;
+                lastTime = now;
+
+                if (Math.random() > 0.6) {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    const emojis = ['✨', '⭐', '💛', '🤎'];
+                    sparkle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    sparkle.style.left = `${e.clientX}px`;
+                    sparkle.style.top = `${e.clientY}px`;
+                    sparkle.style.fontSize = `${8 + Math.random() * 8}px`;
+                    document.body.appendChild(sparkle);
+
+                    setTimeout(() => sparkle.remove(), 800);
+                }
+            });
+        }
+
+        // ========== SOUND EFFECTS ==========
+        function playFlipSound() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+                // Page flip whoosh
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(400, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 0.15);
+
+                gain.gain.setValueAtTime(0.04, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + 0.2);
+
+                // Soft chime (Disney-like)
+                const chime = ctx.createOscillator();
+                const chimeGain = ctx.createGain();
+                chime.connect(chimeGain);
+                chimeGain.connect(ctx.destination);
+
+                chime.type = 'sine';
+                chime.frequency.setValueAtTime(800, ctx.currentTime + 0.1);
+                chime.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.2);
+
+                chimeGain.gain.setValueAtTime(0.02, ctx.currentTime + 0.1);
+                chimeGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+
+                chime.start(ctx.currentTime + 0.1);
+                chime.stop(ctx.currentTime + 0.4);
+            } catch (e) {}
+        }
+
+        // ========== BACKGROUND MUSIC ==========
+        let isMusicPlaying = false;
+        function toggleMusic() {
+            const music = document.getElementById('bgMusic');
+            const btn = document.getElementById('musicBtn');
+
+            if (isMusicPlaying) {
+                music.pause();
+                btn.textContent = '🎵';
+                btn.classList.remove('playing');
+            } else {
+                music.play().catch(() => {
+                    console.log('Add a music.mp3 file for background music');
+                });
+                btn.textContent = '🔊';
+                btn.classList.add('playing');
+            }
+            isMusicPlaying = !isMusicPlaying;
+        }
+
+        // ========== FLOATING PARTICLES ==========
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const items = [
+                // Glowing dots
+                ...Array(15).fill({ type: 'glow' }),
+                // Emoji particles
+                { emoji: '✨' }, { emoji: '⭐' }, { emoji: '💛' },
+                { emoji: '🍫' }, { emoji: '🍫' }, { emoji: '🥚' },
+                { emoji: '💕' }, { emoji: '🤎' }, { emoji: '🌟' },
+                { emoji: '💫' }, { emoji: '🏰' },
+            ];
+
+            items.forEach((item, i) => {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+
+                if (item.type === 'glow') {
+                    particle.classList.add('glow');
+                    const size = Math.random() * 5 + 2;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                } else {
+                    particle.textContent = item.emoji;
+                    particle.style.fontSize = `${12 + Math.random() * 10}px`;
+                    particle.style.animation = `floatUpWiggle ${15 + Math.random() * 20}s linear infinite`;
+                }
+
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.animationDuration = `${12 + Math.random() * 18}s`;
+                particle.style.animationDelay = `${Math.random() * 20}s`;
+
+                container.appendChild(particle);
+            });
+        }
+
+        // ========== PRELOAD ==========
+        function preloadImages() {
+            for (let i = 1; i <= 15; i++) {
+                const img = new Image();
+                img.src = `photos/photo${i}.jpg`;
+            }
+        }
+        preloadImages();
+    </script>
+</body>
+</html>

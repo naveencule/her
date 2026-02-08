@@ -3,281 +3,680 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Princess Lachu ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>For My Dearest Lachu ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* --- MAGICAL CSS --- */
-        :root {
-            --primary: #ff4d6d;
-            --magic-gold: #ffd700;
-            --glass-bg: rgba(255, 255, 255, 0.85);
-            --text-main: #590d22;
-            --bg-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-image: var(--bg-gradient);
-            background-attachment: fixed;
-            font-family: 'Poppins', sans-serif;
-            color: var(--text-main);
+            background: linear-gradient(to bottom, #f4e8d8 0%, #e8d5c4 50%, #f4e8d8 100%);
+            font-family: 'Cormorant Garamond', serif;
+            color: #5a3a31;
             overflow-x: hidden;
-            text-align: center;
+            position: relative;
+            min-height: 100vh;
         }
 
-        /* Floating Magic Dust Background */
-        .magic-dust-container {
+        /* Vintage paper texture overlay */
+        body::before {
+            content: '';
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, rgba(0,0,0,.03) 0px, transparent 1px, transparent 2px, rgba(0,0,0,.03) 3px),
+                repeating-linear-gradient(90deg, rgba(0,0,0,.03) 0px, transparent 1px, transparent 2px, rgba(0,0,0,.03) 3px);
             pointer-events: none;
-            z-index: -1;
-        }
-        .particle {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            box-shadow: 0 0 10px white;
-            animation: float 10s infinite linear;
-            opacity: 0.6;
-        }
-        @keyframes float {
-            0% { transform: translateY(100vh) scale(0); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+            z-index: 1;
         }
 
-        /* Typography */
-        h1, h2, h3 {
-            font-family: 'Great Vibes', cursive;
-            color: var(--primary);
-            text-shadow: 2px 2px 0px rgba(255,255,255,0.5);
+        /* Floating rose petals */
+        .petal {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(ellipse at center, #d4959b 0%, #c97881 100%);
+            border-radius: 50% 0 50% 50%;
+            opacity: 0;
+            animation: fallPetal 12s infinite;
+            z-index: 0;
         }
 
-        /* --- HEADER --- */
+        @keyframes fallPetal {
+            0% {
+                top: -10%;
+                opacity: 0;
+                transform: rotate(0deg) translateX(0);
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                top: 110%;
+                opacity: 0;
+                transform: rotate(720deg) translateX(100px);
+            }
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Vintage ornamental borders */
+        .ornament {
+            text-align: center;
+            font-size: 2rem;
+            color: #8b6f5c;
+            margin: 20px 0;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        /* Header Section */
         header {
-            min-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            text-align: center;
+            padding: 60px 20px;
+            animation: fadeInDown 1.5s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .vintage-frame {
+            display: inline-block;
+            padding: 30px;
+            border: 3px double #8b6f5c;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.6);
+            box-shadow: 
+                inset 0 0 20px rgba(139, 111, 92, 0.1),
+                0 10px 30px rgba(0, 0, 0, 0.1);
             position: relative;
         }
 
-        .crown-icon { font-size: 3rem; margin-bottom: 10px; animation: bounce 2s infinite; }
-        
-        h1 { font-size: 4rem; margin-bottom: 10px; line-height: 1.1; }
-        .subtitle { font-size: 1.2rem; color: #a4133c; letter-spacing: 2px; text-transform: uppercase; }
-
-        /* --- GLASS CARDS --- */
-        .section-container {
-            padding: 20px;
-            max-width: 600px;
-            margin: 0 auto 50px auto;
+        .vintage-frame::before,
+        .vintage-frame::after {
+            content: '❦';
+            position: absolute;
+            font-size: 2rem;
+            color: #a8836f;
         }
 
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 25px;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            padding: 30px;
-            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
+        .vintage-frame::before {
+            top: 10px;
+            left: 10px;
+        }
+
+        .vintage-frame::after {
+            bottom: 10px;
+            right: 10px;
+            transform: rotate(180deg);
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: #8b4450;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: heartbeat 2s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            10% { transform: scale(1.05); }
+            20% { transform: scale(1); }
+        }
+
+        .subtitle {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.3rem;
+            color: #6b4e42;
+            letter-spacing: 3px;
+        }
+
+        .date-ribbon {
+            margin-top: 20px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: #8b6f5c;
+            padding: 10px 30px;
+            background: linear-gradient(90deg, transparent, rgba(212, 149, 155, 0.3), transparent);
+            border-top: 1px solid #c97881;
+            border-bottom: 1px solid #c97881;
+        }
+
+        /* Photo Gallery Section */
+        .gallery {
+            margin: 60px 0;
+            animation: fadeIn 2s ease-out 0.5s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .gallery-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #8b4450;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .gallery-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #c97881, transparent);
+        }
+
+        /* Polaroid-style photo frames */
+        .photo-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin: 40px 0;
+        }
+
+        .polaroid {
+            background: #fff;
+            padding: 20px 20px 60px 20px;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.2),
+                0 0 10px rgba(0, 0, 0, 0.1);
+            transform: rotate(-2deg);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            max-width: 300px;
+            position: relative;
+            animation: slideIn 1s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px) rotate(-5deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotate(-2deg);
+            }
+        }
+
+        .polaroid:nth-child(2) {
+            transform: rotate(3deg);
+            animation-delay: 0.2s;
+        }
+
+        .polaroid:nth-child(2):hover {
+            transform: rotate(0deg) scale(1.1);
+        }
+
+        .polaroid:nth-child(3) {
+            transform: rotate(-3deg);
+            animation-delay: 0.4s;
+        }
+
+        .polaroid:nth-child(3):hover {
+            transform: rotate(0deg) scale(1.1);
+        }
+
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.1);
+            box-shadow: 
+                0 20px 50px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(212, 149, 155, 0.4);
+            z-index: 10;
+        }
+
+        .polaroid img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .polaroid-caption {
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.2rem;
+            color: #5a3a31;
+            margin-top: 15px;
+            min-height: 30px;
+        }
+
+        /* Love Letter Section */
+        .love-letter {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 50px 40px;
+            margin: 60px auto;
+            max-width: 700px;
+            border: 2px solid #8b6f5c;
+            border-radius: 5px;
+            box-shadow: 
+                inset 0 0 30px rgba(139, 111, 92, 0.1),
+                0 15px 40px rgba(0, 0, 0, 0.15);
+            position: relative;
+            animation: fadeIn 2s ease-out 1s both;
+        }
+
+        .love-letter::before {
+            content: '💌';
+            position: absolute;
+            top: -30px;
+            right: 30px;
+            font-size: 3rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .letter-greeting {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: #8b4450;
+            margin-bottom: 20px;
+        }
+
+        .letter-content {
+            font-size: 1.2rem;
+            line-height: 2;
+            color: #5a3a31;
+            text-align: justify;
+            margin-bottom: 30px;
+        }
+
+        .letter-signature {
+            text-align: right;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #8b4450;
+            margin-top: 30px;
+        }
+
+        /* Magic Reveal Button */
+        .reveal-section {
+            text-align: center;
+            margin: 60px 0;
+            animation: fadeIn 2s ease-out 1.5s both;
+        }
+
+        .magic-button {
+            background: linear-gradient(135deg, #d4959b 0%, #c97881 100%);
+            color: #fff;
+            border: 3px solid #8b6f5c;
+            padding: 20px 50px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 
+                0 10px 30px rgba(201, 120, 129, 0.4),
+                inset 0 -3px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
 
-        /* --- PHOTOS --- */
-        .photo-frame {
-            background: white;
-            padding: 10px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-            transform: rotate(-3deg);
-            transition: transform 0.3s;
+        .magic-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
         }
-        .photo-frame:nth-child(even) { transform: rotate(3deg); }
-        .photo-frame:hover { transform: rotate(0deg) scale(1.02); }
 
-        .photo-frame img {
-            width: 100%;
-            height: auto;
+        .magic-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .magic-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 15px 40px rgba(201, 120, 129, 0.6),
+                inset 0 -3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .magic-button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Hidden Content */
+        #secretReveal {
+            display: none;
+            animation: revealAnimation 1.5s ease-out;
+            margin-top: 40px;
+        }
+
+        @keyframes revealAnimation {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) rotateY(90deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotateY(0deg);
+            }
+        }
+
+        .secret-content {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border: 4px double #c97881;
+            border-radius: 15px;
+            box-shadow: 
+                0 0 40px rgba(201, 120, 129, 0.5),
+                inset 0 0 20px rgba(212, 149, 155, 0.2);
+            position: relative;
+        }
+
+        .secret-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: #8b4450;
+            margin-bottom: 30px;
+            animation: heartbeat 2s ease-in-out infinite;
+        }
+
+        .final-photo {
+            background: #fff;
+            padding: 15px;
+            box-shadow: 
+                0 15px 50px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(212, 149, 155, 0.6);
             border-radius: 10px;
+            animation: glow 2s ease-in-out infinite alternate;
+            margin: 20px auto;
+            max-width: 400px;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 
+                    0 15px 50px rgba(0, 0, 0, 0.3),
+                    0 0 30px rgba(212, 149, 155, 0.6);
+            }
+            to {
+                box-shadow: 
+                    0 15px 50px rgba(0, 0, 0, 0.3),
+                    0 0 50px rgba(212, 149, 155, 1);
+            }
+        }
+
+        .final-photo img {
+            width: 100%;
             display: block;
+            border-radius: 5px;
         }
 
-        /* --- SURPRISE REVEAL SECTION --- */
-        .surprise-box {
-            margin-top: 20px;
-        }
-
-        .magic-btn {
-            background: linear-gradient(45deg, #ff4d6d, #ff758c);
-            color: white;
-            border: none;
-            padding: 15px 30px;
+        .final-message {
+            font-family: 'Playfair Display', serif;
             font-size: 1.3rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-family: 'Great Vibes', cursive;
-            box-shadow: 0 0 20px rgba(255, 77, 109, 0.6);
-            transition: all 0.3s;
-            border: 2px solid white;
-        }
-
-        .magic-btn:hover { transform: scale(1.1); box-shadow: 0 0 30px rgba(255, 77, 109, 0.8); }
-
-        /* The Hidden Content */
-        #hiddenContent {
-            display: none; /* Hidden by default */
-            opacity: 0;
-            transition: opacity 1s ease-in;
+            color: #8b4450;
             margin-top: 20px;
+            font-style: italic;
         }
 
-        .final-photo-frame {
-            border: 4px solid var(--magic-gold);
-            padding: 5px;
-            border-radius: 15px;
-            background: white;
-            animation: glow 2s infinite alternate;
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            font-family: 'Playfair Display', serif;
+            color: #8b6f5c;
+            font-style: italic;
         }
-        
-        @keyframes glow { from { box-shadow: 0 0 10px var(--magic-gold); } to { box-shadow: 0 0 25px var(--magic-gold); } }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        footer { margin-bottom: 20px; opacity: 0.8; font-size: 0.9rem; }
+        .heart-divider {
+            font-size: 1.5rem;
+            margin: 20px 0;
+            color: #c97881;
+        }
 
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .subtitle { font-size: 1rem; }
+            .photo-container { flex-direction: column; align-items: center; }
+            .polaroid { max-width: 280px; }
+            .love-letter { padding: 30px 20px; }
+            .letter-content { font-size: 1.1rem; }
+            .magic-button { padding: 15px 35px; font-size: 1.2rem; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="magic-dust-container" id="dustContainer"></div>
+    <!-- Falling Rose Petals -->
+    <div id="petalsContainer"></div>
 
-    <header>
-        <div class="crown-icon">👑</div>
-        <p class="subtitle">Once upon a time...</p>
-        <h1>Happy Valentine's<br>My Lachu</h1>
-        <p style="margin-top:10px;">You are my favorite fairytale.</p>
-    </header>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="vintage-frame">
+                <div class="ornament">✦ ❦ ✦</div>
+                <h1>To My Dearest Lachu</h1>
+                <p class="subtitle">A Love Story Written in the Stars</p>
+                <div class="ornament">✦ ❦ ✦</div>
+            </div>
+            <div class="date-ribbon">Valentine's Day 2025</div>
+        </header>
 
-    <div class="section-container">
-        <div class="glass-card">
-            <h2>Our Magical Moments</h2>
-            <br>
+        <!-- Photo Gallery -->
+        <section class="gallery">
+            <h2 class="gallery-title">Our Cherished Memories</h2>
             
-            <div class="photo-frame">
-                <img src="one.jpeg" alt="Cute Memory">
-                <p style="margin-top:5px; font-size:0.9rem;">IYKYK</p>
-            </div>
+            <div class="photo-container">
+                <div class="polaroid">
+                    <img src="one.jpeg" alt="Beautiful Memory">
+                    <div class="polaroid-caption">A moment frozen in time</div>
+                </div>
 
-            <div class="photo-frame">
-                <img src="three.jpeg" alt="Fun Memory">
-                <p style="margin-top:5px; font-size:0.9rem;">THIS ALSO IFKYK</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="section-container">
-        <div class="glass-card">
-            <h2>To My Princess</h2>
-            <p style="margin: 20px 0; line-height: 1.8;">
-                Lachu, finding you was like finding the missing piece of a puzzle I didn't know I was solving. 
-                You have the kindest heart and the most beautiful smile in the kingdom. 
-                I promise to always be your Prince Charming (even when I'm annoying!).
-            </p>
-
-            <div class="surprise-box">
-                <button id="surpriseBtn" class="magic-btn" onclick="revealMagic()">✨ Tap for Magic ✨</button>
-                
-                <div id="hiddenContent">
-                    <h3 style="font-size: 2.5rem; color: #d90429;">I Love You!</h3>
-                    
-                    <img src="two.jpeg" class="final-photo-frame" style="width:100%; margin: 15px 0;">
-                    
-                    <p style="font-weight: bold; color: #d90429;">Our First & Favourite Photo</p>
+                <div class="polaroid">
+                    <img src="three.jpeg" alt="Sweet Memory">
+                    <div class="polaroid-caption">When magic found us</div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- Love Letter -->
+        <section class="love-letter">
+            <div class="letter-greeting">My Darling Princess,</div>
+            <p class="letter-content">
+                From the moment you entered my life, every day became a page in the most beautiful story 
+                ever written. You are the melody in my heart's symphony, the sunshine that breaks through 
+                every cloudy day, and the dream I never want to wake from. Your laughter is my favorite 
+                sound, your smile my favorite sight, and your love my greatest treasure. With you, I've 
+                found a love that feels like coming home, a warmth that wraps around my soul, and a 
+                happiness I never knew existed. You are my forever, my always, and my everything.
+            </p>
+            <p class="letter-content">
+                Every memory we create together is a precious gem I keep close to my heart. Through every 
+                sunrise and sunset, through every joy and challenge, I promise to be your constant, your 
+                safe haven, and your biggest cheerleader. You deserve all the love this world has to offer, 
+                and I'm blessed to be the one who gets to give it to you.
+            </p>
+            <div class="letter-signature">Forever Yours ❤️</div>
+        </section>
+
+        <!-- Magic Reveal Section -->
+        <section class="reveal-section">
+            <button class="magic-button" onclick="revealSecret()">
+                <span>✨ Unlock My Heart ✨</span>
+            </button>
+
+            <div id="secretReveal">
+                <div class="secret-content">
+                    <h2 class="secret-title">I Love You, Lachu!</h2>
+                    
+                    <div class="final-photo">
+                        <img src="two.jpeg" alt="Our First Photo">
+                    </div>
+                    
+                    <p class="final-message">
+                        Our first photograph together - the beginning of forever ❤️
+                    </p>
+                    <p class="final-message" style="font-size: 1.1rem; margin-top: 15px;">
+                        "In you, I've found the love of my life and my closest, truest friend."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="heart-divider">❤ ❦ ❤</div>
+            <p>Crafted with endless love for Lachu</p>
+            <p style="font-size: 0.9rem; margin-top: 10px;">Valentine's Day 2025</p>
+        </footer>
     </div>
 
-    <footer>
-        Made with magic ✨ for Lachu<br>2025
-    </footer>
-
     <script>
-        /* --- JAVASCRIPT --- */
+        // Create falling rose petals
+        function createPetals() {
+            const container = document.getElementById('petalsContainer');
+            const petalCount = 25;
 
-        // 1. Create Magic Dust (Background particles)
-        function createMagicDust() {
-            const container = document.getElementById('dustContainer');
-            for(let i=0; i<30; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                particle.style.left = Math.random() * 100 + 'vw';
-                particle.style.width = Math.random() * 5 + 'px';
-                particle.style.height = particle.style.width;
-                particle.style.animationDuration = (Math.random() * 5 + 5) + 's';
-                particle.style.animationDelay = (Math.random() * 5) + 's';
-                container.appendChild(particle);
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                petal.style.left = Math.random() * 100 + 'vw';
+                petal.style.animationDuration = (Math.random() * 8 + 8) + 's';
+                petal.style.animationDelay = Math.random() * 10 + 's';
+                petal.style.transform = `rotate(${Math.random() * 360}deg)`;
+                container.appendChild(petal);
             }
         }
-        createMagicDust();
 
-        // 2. Reveal Function (Shows the photo)
-        function revealMagic() {
-            const btn = document.getElementById('surpriseBtn');
-            const content = document.getElementById('hiddenContent');
+        createPetals();
+
+        // Reveal secret content
+        function revealSecret() {
+            const button = document.querySelector('.magic-button');
+            const secretContent = document.getElementById('secretReveal');
             
-            // Hide the button
-            btn.style.display = 'none';
+            // Hide button with fade out
+            button.style.transition = 'all 0.5s ease';
+            button.style.opacity = '0';
+            button.style.transform = 'scale(0.8)';
             
-            // Show the content with fade effect
-            content.style.display = 'block';
             setTimeout(() => {
-                content.style.opacity = '1';
-            }, 100);
-
-            // Trigger Confetti Explosion
-            blastConfetti();
+                button.style.display = 'none';
+                secretContent.style.display = 'block';
+                
+                // Create heart burst effect
+                createHeartBurst();
+                
+                // Scroll to revealed content
+                setTimeout(() => {
+                    secretContent.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
+            }, 500);
         }
 
-        // 3. Disney Sparkle Confetti
-        function blastConfetti() {
-            const symbols = ['✨', '❤️', '👑', '🦋'];
-            
-            for(let i=0; i<60; i++) {
-                const conf = document.createElement('div');
-                conf.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-                conf.style.position = 'fixed';
-                conf.style.left = '50%';
-                conf.style.top = '50%';
-                conf.style.fontSize = (Math.random() * 20 + 10) + 'px';
-                conf.style.zIndex = '9999';
-                conf.style.pointerEvents = 'none';
+        // Heart burst animation
+        function createHeartBurst() {
+            const symbols = ['❤️', '💕', '💖', '💗', '💝', '💞', '🌹', '✨'];
+            const burstCount = 50;
+
+            for (let i = 0; i < burstCount; i++) {
+                const heart = document.createElement('div');
+                heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                heart.style.position = 'fixed';
+                heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                heart.style.left = '50%';
+                heart.style.top = '50%';
+                heart.style.zIndex = '9999';
+                heart.style.pointerEvents = 'none';
                 
-                // Random explosion direction
-                const angle = Math.random() * Math.PI * 2;
-                const velocity = Math.random() * 200 + 100;
+                const angle = (Math.PI * 2 * i) / burstCount;
+                const velocity = Math.random() * 300 + 200;
                 const tx = Math.cos(angle) * velocity;
                 const ty = Math.sin(angle) * velocity;
 
-                conf.style.transition = 'transform 1.5s ease-out, opacity 1.5s';
-                document.body.appendChild(conf);
+                heart.style.transition = 'all 2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                document.body.appendChild(heart);
 
-                // Animate
                 setTimeout(() => {
-                    conf.style.transform = `translate(${tx}px, ${ty}px) rotate(${Math.random()*360}deg)`;
-                    conf.style.opacity = '0';
+                    heart.style.transform = `translate(${tx}px, ${ty}px) rotate(${Math.random() * 720}deg) scale(0)`;
+                    heart.style.opacity = '0';
                 }, 50);
 
-                // Clean up
-                setTimeout(() => { conf.remove(); }, 1550);
+                setTimeout(() => {
+                    heart.remove();
+                }, 2050);
             }
         }
+
+        // Add subtle parallax effect to polaroids
+        document.querySelectorAll('.polaroid').forEach(polaroid => {
+            polaroid.addEventListener('mousemove', (e) => {
+                const rect = polaroid.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+                
+                polaroid.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.1)`;
+            });
+
+            polaroid.addEventListener('mouseleave', () => {
+                const rotation = polaroid.classList.contains('polaroid') ? 
+                    (polaroid === document.querySelectorAll('.polaroid')[0] ? '-2deg' : 
+                     polaroid === document.querySelectorAll('.polaroid')[1] ? '3deg' : '-3deg') : '-2deg';
+                polaroid.style.transform = `rotate(${rotation})`;
+            });
+        });
     </script>
 </body>
 </html>
